@@ -40,6 +40,9 @@ def run_codex(model: str | None, effort: str):
         "--skip-git-repo-check",
         "--ephemeral",
         "-s", "read-only",
+        # 关闭 codex 的跨会话记忆（~/.codex/memories），避免历史记忆注入提示词、污染
+        # 评测结果，保证不同机器/不同记忆状态下结果可复现。等价于 -c features.memories=false。
+        "--disable", "memories",
         "-c", f"model_reasoning_effort={effort}",
     ]
     if model:
